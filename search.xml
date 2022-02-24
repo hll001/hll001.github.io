@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>nginx那些事</title>
+    <url>/2022/02/24/nginx%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
+    <content><![CDATA[<h2 id="Linux-（Ubuntu）"><a href="#Linux-（Ubuntu）" class="headerlink" title="Linux （Ubuntu）"></a>Linux （Ubuntu）</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3>   <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看更新apt-get软件包</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># apt-get下载nginx， 会自动编译安装</span></span><br><span class="line"><span class="comment"># 默认安装目录是 /usr/sbin/nginx</span></span><br><span class="line"><span class="comment"># 配置文件目录是 /etc/nginx</span></span><br><span class="line"><span class="comment"># 关键配置文件是 /etc/nginx/nginx.conf</span></span><br><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="启停相关指令"><a href="#启停相关指令" class="headerlink" title="启停相关指令"></a>启停相关指令</h3>   <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 启动|关闭|重启|热加载（只修改配置文件，不中断情况下热加载）nginx</span></span><br><span class="line">sudo systemctl start|stop|restart|reload nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认情况下Nginx会随这服务器启动而启动，可以手动进行禁止|启动</span></span><br><span class="line">sudo systemctl <span class="built_in">disable</span>|<span class="built_in">enable</span> nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每次修改完配置文件之后，检查是否有错误</span></span><br><span class="line">sudo systemctl -t</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除nginx进程来停止nginx的运行</span></span><br><span class="line">sudo killall nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过查看Nginx进程判断nginx是否启动,用ps -ef列出进程列表，然后通过grep过滤判断nginx是否启动。</span></span><br><span class="line">ps -ef | grep nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接查看nginx进程id，有返回pid号说明nginx启动了</span></span><br><span class="line">ps -C nginx -o pid</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载问题（基于上述安装方式进行卸载的）"><a href="#卸载问题（基于上述安装方式进行卸载的）" class="headerlink" title="卸载问题（基于上述安装方式进行卸载的）"></a>卸载问题（基于上述安装方式进行卸载的）</h3>   <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 停止nginx服务</span></span><br><span class="line">sudo systemctl stop nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除nginx， -purge包括配置文件</span></span><br><span class="line">sudo apt-get --purge remove nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动移除全部不使用的软件包</span></span><br><span class="line">sudo apt-get autoremove</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出包含nginx名字的软件</span></span><br><span class="line">dpkg --get-selections|grep nginx </span><br><span class="line"></span><br><span class="line"><span class="comment"># 并依次上述删除对应软件（主要是nginx, nginx-common, nginx-core）</span></span><br><span class="line">sudo apt-get --purge remove nginx</span><br><span class="line">sudo apt-get --purge remove nginx-common</span><br><span class="line">sudo apt-get --purge remove nginx-core</span><br><span class="line"></span><br><span class="line"><span class="comment"># 确认卸载是否完成</span></span><br><span class="line">dpkg --get-selections|grep nginx <span class="comment"># nginx, nginx-common, nginx-core这些信息都不会有</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">which</span> nginx <span class="comment"># 不显示任何东西</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="防火墙问题"><a href="#防火墙问题" class="headerlink" title="防火墙问题"></a>防火墙问题</h3><p>   防火墙是用来监视和过滤进出网络流量的工具。它通过定义一系列安全规则来决定是否允许或者屏蔽指定的流量。</p>
+<p>   Ubuntu自带的防火墙配置工具（默认安装的）称之为 <code>UFW（Uncomplicated Firewall）</code>。UFW是一个用来<code>管理iptables防火规则的前端工具</code>（访问友好），其核心目的是为了让管理iptables更简单。</p>
+<p>   <code>sudo ufw status verbose</code> 指令查看UFW的开启状态，默认是<code>inactive</code>（不活动）。</p>
+<p>   默认情况下，UFW 阻塞了所有进来的连接，但允许所有出去的连接。这意味着任何人无法访问你的服务器，除非你<code>打开端口</code>。运行在服务器上的应用和服务可以访问外面的世界。</p>
+<p>   <code>sudo ufw status</code> 查看使用防火墙之后的状态(同上)。</p>
+<p>   <code>sudo ufw enable|disable</code> 开启/关闭防火墙 (默认设置是’disable’)。</p>
+<p>   <code>sudo ufw reset</code> 重置UFW。</p>
+<p>   <code>sudo ufw allow(delete allow) xxx</code> 开启(禁用)xx端口。</p>
+<p>   <code>sudo ufw app list</code> 查看有如下配置方案:</p>
+   <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hll@hll-VirtualBox:/etc/nginx$ sudo ufw app list</span><br><span class="line">可用应用程序：</span><br><span class="line">CUPS</span><br><span class="line">Nginx Full</span><br><span class="line">Nginx HTTP</span><br><span class="line">Nginx HTTPS</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Nginx Full：开端口 80 正常，未加密的网络流量；端口 443 TLS / SSL 加密的流量</li>
+<li>Nginx HTTP：仅打开端口 80 正常，未加密</li>
+<li>Nginx HTTPS：仅打开端口 443 TLS / SSL 加密</li>
+</ul>
+<p><code>sudo ufw app info &#39;Nginx Full&#39;</code> 用来查看 <code>Nginx Full</code> 的具体配置信息。</p>
+<p><code>sudo ufw allow &#39;Nginx Full&#39;</code> 给nginx开启 <code>Nginx Full</code> 配置方案。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用nvm管理node</title>
+    <url>/2022/01/13/%E4%BD%BF%E7%94%A8nvm%E7%AE%A1%E7%90%86node/</url>
+    <content><![CDATA[<p>使用nvm我们可以快捷的下载和使用对应版本node,不用再为安装哪个node版本而困惑了。</p>
+<h2 id="安装nvm"><a href="#安装nvm" class="headerlink" title="安装nvm"></a>安装nvm</h2><ul>
+<li><p>mac下我们可以通过homebrew来直接安装，在终端下输入 <code>brew install nvm</code>。指令执行后，终端输入 <code>brew -v</code> 确定输出版本号之后表示homebrew安装完成。</p>
+</li>
+<li><p>终端输入 <code>brew install nvm</code> 安装nvm。指令执行后，终端输入 <code>nvm -v</code> 确认输出nvm版本号表示安装成功。</p>
+</li>
+</ul>
+<blockquote>
+<p>配置的电脑终端是zsh，具体如何配置点击<a href="https://zhuanlan.zhihu.com/p/365838868">参考</a><br>homebrew问题参考<a href="https://brew.sh/index_zh-cn">官网</a></p>
+</blockquote>
+<h2 id="使用nvm管理node"><a href="#使用nvm管理node" class="headerlink" title="使用nvm管理node"></a>使用nvm管理node</h2><ol>
+<li><p>终端输入 <code>arch -x86_64 zsh</code> 使终端进入Rosetta 2模式。之后终端输入 <code>nvm install xx(特定版本号)</code> 来进行下载特定版本的node。</p>
+</li>
+<li><p>终端输入 <code>arch -arm64 zsh</code> 退出Rosetta 2模式。</p>
+</li>
+<li><p>终端输入 <code>nvm list</code> 查看已经通过nvm下载的所有node版本。一般 <code>-&gt;</code> 指向就是我们当前使用node版本。</p>
+</li>
+<li><p>更换node版本也很简单。直接终端输入 <code>nvm use xx(对应node版本)</code> 即可完成node版本的切换。（切换的版本一定要通过<code>nvm install</code>下载好，否则会切换失败）</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>技术</category>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用hexo建立本地博客</title>
+    <url>/2022/01/16/%E4%BD%BF%E7%94%A8hexo%E5%BB%BA%E7%AB%8B%E6%9C%AC%E5%9C%B0%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="全局安装hexo"><a href="#全局安装hexo" class="headerlink" title="全局安装hexo"></a>全局安装hexo</h2><p>不建议使用官网的中提供的方法，那样安装完成后执行hexo的相关命令会有问题。推荐直接终端输入一下指令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo npm install --unsafe-perm --verbose -g hexo</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里注意下node的版本，本人是使用的v15.14.0版本</p>
+</blockquote>
+<h2 id="建站"><a href="#建站" class="headerlink" title="建站"></a>建站</h2><blockquote>
+<p>声明：本人建立的博客项目名称为blog<br>项目存放位置是desktop</p>
+</blockquote>
+<h3 id="建立博客项目"><a href="#建立博客项目" class="headerlink" title="建立博客项目"></a>建立博客项目</h3><p>在桌面打开终端依次输入一下指令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo inti blog</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line"></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<p>以上命令都已经执行完成后表示我们已经新建了一个博客。我们可以项目中启动终端，输入 <code>hexo server</code> 来本地启动我们博客，浏览器访问生成的链接即可。项目中的各个文件说明我就不做过多赘述了，具体内容参考<a href="https://hexo.io/zh-cn/docs/setup">官网</a></p>
+<h3 id="博客主题"><a href="#博客主题" class="headerlink" title="博客主题"></a>博客主题</h3><p>个人感觉hexo默认的博客主题好丑啊，直接替换掉吧。本人使用的是next主题很简洁，大家不嫌弃的话也可以使用这个主题。<br>hexo中有<a href="https://hexo.io/themes/">主题库</a>，大家可以进入自行下载。hexo的主题库内容都是从GitHub中过来的，如果有人不会安全上网的话可以去<a href="https://gitee.com/explore">码云</a>上搜索看看有的话直接拉下来放在<strong>项目的themes文件夹</strong>，之后修改项目中 _config.yuml 中的 <strong>theme</strong> 为对应主题名称即可。</p>
+<p>next主题具体配置给大家几个参考链接进行配置吧：</p>
+<ul>
+<li><p><a href="https://www.jianshu.com/p/f054333ac9e6">hexo的next主题个性化教程:打造炫酷网站</a></p>
+</li>
+<li><p><a href="https://theme-next.iissnan.com/getting-started.html#third-party-services">next配置文档</a></p>
+</li>
+</ul>
+<h3 id="写博客文章"><a href="#写博客文章" class="headerlink" title="写博客文章"></a>写博客文章</h3><blockquote>
+<p>下述内容都是按照我自己习惯来写文章的。</p>
+</blockquote>
+<p>本人喜欢用vsCode来写markdown的文章，上述项目我都是导入到vsCode中进行编辑处理的。并且vsCode自带的终端很好用，默认是mac自带的bash，可以手动选择为zsh。</p>
+<ol>
+<li><p>终端输入 <code>hexo n &quot;博客文章名称&quot;</code> 即新建了一个文章草稿（默认新建是文章，将博客项目中 _config.yuml <strong>中的default_layout</strong>从<strong>post</strong>修改为<strong>draft</strong> 即可）。默认草稿中的文章是不是在博客站中展示的，所有你可以不用担心你的草稿在博客网站上被查看到。</p>
+</li>
+<li><p>一般我都会在草稿中将博客文章内容写好之后再通过 <code>hexo publish &quot;博客文章名称&quot;</code> 将改文章进行发布。（本质就是从 _drafts 文件夹移入到_posts 文件夹中）</p>
+</li>
+<li><p><code>hexo deploy</code> 可以直接发布我们博客（要通过配置_config.yml中deploy信息）。</p>
+</li>
+</ol>
+<p>通过步骤1，2之后能很好的控制我的博客中文章内容不出错。这个方法很不错希望大家可以借鉴。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+</search>
