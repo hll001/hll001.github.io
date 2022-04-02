@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>nginx那些事 | 笔记</title>
     <meta name="generator" content="VuePress 1.9.7">
-    
+    <link rel="icon" href="/favorite.ico">
     <meta name="description" content="好记性不如烂笔头！">
     
-    <link rel="preload" href="/assets/css/0.styles.35bcedcf.css" as="style"><link rel="preload" href="/assets/js/app.58c88c0d.js" as="script"><link rel="preload" href="/assets/js/2.a3a9e898.js" as="script"><link rel="preload" href="/assets/js/8.e4862436.js" as="script"><link rel="prefetch" href="/assets/js/10.d88290a1.js"><link rel="prefetch" href="/assets/js/3.86615862.js"><link rel="prefetch" href="/assets/js/4.ed8f2e2d.js"><link rel="prefetch" href="/assets/js/5.32dde0b2.js"><link rel="prefetch" href="/assets/js/6.c7b54f12.js"><link rel="prefetch" href="/assets/js/7.f39602d3.js"><link rel="prefetch" href="/assets/js/9.564306b9.js">
-    <link rel="stylesheet" href="/assets/css/0.styles.35bcedcf.css">
+    <link rel="preload" href="/assets/css/0.styles.e4d8b86b.css" as="style"><link rel="preload" href="/assets/js/app.29a94a1a.js" as="script"><link rel="preload" href="/assets/js/2.b727005a.js" as="script"><link rel="preload" href="/assets/js/8.8f4862c5.js" as="script"><link rel="prefetch" href="/assets/js/10.2ccc4d9c.js"><link rel="prefetch" href="/assets/js/3.86615862.js"><link rel="prefetch" href="/assets/js/4.b7d0708f.js"><link rel="prefetch" href="/assets/js/5.9e2f4ca7.js"><link rel="prefetch" href="/assets/js/6.c7b54f12.js"><link rel="prefetch" href="/assets/js/7.f39602d3.js"><link rel="prefetch" href="/assets/js/9.0d879116.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e4d8b86b.css">
   </head>
   <body>
     <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
   首页
-</a></div><div class="nav-item"><a href="/tools/使用nvm管理node.html" class="nav-link">
+</a></div><div class="nav-item"><a href="/blogs/nginx那些事.html" class="nav-link">
   Blogs
 </a></div><div class="nav-item"><a href="https://github.com/hll001" target="_blank" rel="noopener noreferrer" class="nav-link external">
   GitHub
@@ -22,13 +22,13 @@
   默认主题配置
   <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
   首页
-</a></div><div class="nav-item"><a href="/tools/使用nvm管理node.html" class="nav-link">
+</a></div><div class="nav-item"><a href="/blogs/nginx那些事.html" class="nav-link">
   Blogs
 </a></div><div class="nav-item"><a href="https://github.com/hll001" target="_blank" rel="noopener noreferrer" class="nav-link external">
   GitHub
   <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://vuepress.vuejs.org/zh/theme/default-theme-config.html#%E9%A6%96%E9%A1%B5" target="_blank" rel="noopener noreferrer" class="nav-link external">
   默认主题配置
-  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/tools/使用nvm管理node.html" class="sidebar-link">使用nvm管理node</a></li><li><a href="/tools/nginx那些事.html" class="active sidebar-link">nginx那些事</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tools/nginx那些事.html#linux-ubuntu" class="sidebar-link">Linux （Ubuntu）</a></li></ul></li><li><a href="/tools/使用hexo建立本地博客.html" class="sidebar-link">使用hexo建立本地博客</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="nginx那些事"><a href="#nginx那些事" class="header-anchor">#</a> nginx那些事</h1> <h2 id="linux-ubuntu"><a href="#linux-ubuntu" class="header-anchor">#</a> Linux （Ubuntu）</h2> <h3 id="下载"><a href="#下载" class="header-anchor">#</a> 下载</h3> <div class="language-bash extra-class"><pre class="language-bash"><code> <span class="token comment"># 查看更新apt-get软件包</span>
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/blogs/nginx那些事.html" class="active sidebar-link">nginx那些事</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blogs/nginx那些事.html#linux-ubuntu" class="sidebar-link">Linux （Ubuntu）</a></li></ul></li><li><a href="/blogs/vuepress文档博客.html" class="sidebar-link">VuePress文档博客</a></li><li><a href="/blogs/使用nvm管理node.html" class="sidebar-link">使用nvm管理node</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="nginx那些事"><a href="#nginx那些事" class="header-anchor">#</a> nginx那些事</h1> <h2 id="linux-ubuntu"><a href="#linux-ubuntu" class="header-anchor">#</a> Linux （Ubuntu）</h2> <h3 id="下载"><a href="#下载" class="header-anchor">#</a> 下载</h3> <div class="language-bash extra-class"><pre class="language-bash"><code> <span class="token comment"># 查看更新apt-get软件包</span>
  <span class="token function">sudo</span> <span class="token function">apt-get</span> update
 
  <span class="token comment"># apt-get下载nginx， 会自动编译安装</span>
@@ -80,15 +80,11 @@
  Nginx Full
  Nginx HTTP
  Nginx HTTPS
-</code></pre></div><ul><li><p>Nginx Full：开端口 80 正常，未加密的网络流量；端口 443 TLS / SSL 加密的流量</p></li> <li><p>Nginx HTTP：仅打开端口 80 正常，未加密</p></li> <li><p>Nginx HTTPS：仅打开端口 443 TLS / SSL 加密</p></li></ul> <p><code>sudo ufw app info 'Nginx Full'</code> 用来查看 <code>Nginx Full</code> 的具体配置信息。</p> <p><code>sudo ufw allow 'Nginx Full'</code> 给nginx开启 <code>Nginx Full</code> 配置方案。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
-      ←
-      <a href="/tools/使用nvm管理node.html" class="prev">
-        使用nvm管理node
-      </a></span> <span class="next"><a href="/tools/使用hexo建立本地博客.html">
-        使用hexo建立本地博客
+</code></pre></div><ul><li><p>Nginx Full：开端口 80 正常，未加密的网络流量；端口 443 TLS / SSL 加密的流量</p></li> <li><p>Nginx HTTP：仅打开端口 80 正常，未加密</p></li> <li><p>Nginx HTTPS：仅打开端口 443 TLS / SSL 加密</p></li></ul> <p><code>sudo ufw app info 'Nginx Full'</code> 用来查看 <code>Nginx Full</code> 的具体配置信息。</p> <p><code>sudo ufw allow 'Nginx Full'</code> 给nginx开启 <code>Nginx Full</code> 配置方案。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/blogs/vuepress文档博客.html">
+        VuePress文档博客
       </a>
       →
     </span></p></div> </main></div><div class="global-ui"></div></div>
-    <script src="/assets/js/app.58c88c0d.js" defer></script><script src="/assets/js/2.a3a9e898.js" defer></script><script src="/assets/js/8.e4862436.js" defer></script>
+    <script src="/assets/js/app.29a94a1a.js" defer></script><script src="/assets/js/2.b727005a.js" defer></script><script src="/assets/js/8.8f4862c5.js" defer></script>
   </body>
 </html>
