@@ -8,8 +8,8 @@
     <link rel="icon" href="/favorite.ico">
     <meta name="description" content="好记性不如烂笔头！">
     
-    <link rel="preload" href="/assets/css/0.styles.e4d8b86b.css" as="style"><link rel="preload" href="/assets/js/app.29a94a1a.js" as="script"><link rel="preload" href="/assets/js/2.b727005a.js" as="script"><link rel="preload" href="/assets/js/9.0d879116.js" as="script"><link rel="prefetch" href="/assets/js/10.2ccc4d9c.js"><link rel="prefetch" href="/assets/js/3.86615862.js"><link rel="prefetch" href="/assets/js/4.b7d0708f.js"><link rel="prefetch" href="/assets/js/5.9e2f4ca7.js"><link rel="prefetch" href="/assets/js/6.c7b54f12.js"><link rel="prefetch" href="/assets/js/7.f39602d3.js"><link rel="prefetch" href="/assets/js/8.8f4862c5.js">
-    <link rel="stylesheet" href="/assets/css/0.styles.e4d8b86b.css">
+    <link rel="preload" href="/assets/css/0.styles.35bcedcf.css" as="style"><link rel="preload" href="/assets/js/app.2af9bd61.js" as="script"><link rel="preload" href="/assets/js/2.b727005a.js" as="script"><link rel="preload" href="/assets/js/9.e4adff40.js" as="script"><link rel="prefetch" href="/assets/js/10.06aa344d.js"><link rel="prefetch" href="/assets/js/3.86615862.js"><link rel="prefetch" href="/assets/js/4.ed8f2e2d.js"><link rel="prefetch" href="/assets/js/5.32dde0b2.js"><link rel="prefetch" href="/assets/js/6.c7b54f12.js"><link rel="prefetch" href="/assets/js/7.f39602d3.js"><link rel="prefetch" href="/assets/js/8.92296573.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.35bcedcf.css">
   </head>
   <body>
     <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
@@ -46,7 +46,41 @@
  git commit -m <span class="token string">'xxx'</span>   //本地提交的说明
 
  git push -u origin master // 提交至master分支
-</code></pre></div><p>代码提交后，等待gitPage自动部署。几分钟后在访问<code>https://xxx.github.io</code>即可看到内容。</p> <h2 id="自动化部署方案"><a href="#自动化部署方案" class="header-anchor">#</a> 自动化部署方案</h2> <ol><li><code>blog_src</code> 项目根目录下创建deploy.sh，进行自动化部署(不用我去手动部署了)</li></ol> <div class="language-sh extra-class"><pre class="language-sh"><code>
+</code></pre></div><p>代码提交后，等待gitPage自动部署。几分钟后在访问<code>https://xxx.github.io</code>即可看到内容。</p> <h2 id="自动化部署方案"><a href="#自动化部署方案" class="header-anchor">#</a> 自动化部署方案</h2> <ol><li><code>blog_src</code> 项目根目录下创建deploy.sh，进行自动化部署(不用我去手动部署了)，自动部署脚本内容：</li></ol> <div class="language-sh extra-class"><pre class="language-sh"><code><span class="token shebang important">#!/usr/bin/env sh</span>
+
+<span class="token comment"># 确保脚本抛出遇到的错误</span>
+<span class="token builtin class-name">set</span> -e
+
+<span class="token comment"># blog_src项目打包</span>
+<span class="token function">npm</span> run build
+
+<span class="token comment"># 进入到dist中删除旧内容</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>/dist
+
+<span class="token comment"># 删除除了.git 以外的所有文件，不直接复制覆盖是为了避免文件名修改出错。</span>
+<span class="token function">ls</span> <span class="token operator">|</span> <span class="token function">grep</span> -v .git <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token function">rm</span> -rf
+
+<span class="token comment"># 进入 blog_src 将打包内容复制到 dist 中,删除打包文件</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>/blog_src
+
+<span class="token comment">#将打包内容复制到 dist 中</span>
+<span class="token function">mv</span> docs/.vuepress/dist/* <span class="token punctuation">..</span>/dist
+
+<span class="token comment"># 删除打包文件</span>
+<span class="token function">rm</span> -rf docs/.vuepress/dist
+
+<span class="token comment"># 提交 blog_src 中修改到GitHub中</span>
+<span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token function">git</span> commit -m <span class="token variable">$1</span>
+<span class="token function">git</span> push -u origin master
+
+<span class="token comment"># 进入到dist中提交打包内容</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>/dist
+
+<span class="token comment"># 提交打包内容到GitHub中</span>
+<span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token function">git</span> commit -m <span class="token variable">$1</span>
+<span class="token function">git</span> push -u origin master
 </code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
       ←
       <a href="/blogs/nginx那些事.html" class="prev">
@@ -56,6 +90,6 @@
       </a>
       →
     </span></p></div> </main></div><div class="global-ui"></div></div>
-    <script src="/assets/js/app.29a94a1a.js" defer></script><script src="/assets/js/2.b727005a.js" defer></script><script src="/assets/js/9.0d879116.js" defer></script>
+    <script src="/assets/js/app.2af9bd61.js" defer></script><script src="/assets/js/2.b727005a.js" defer></script><script src="/assets/js/9.e4adff40.js" defer></script>
   </body>
 </html>
